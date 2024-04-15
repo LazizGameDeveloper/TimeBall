@@ -28,7 +28,6 @@ public class CameraFieldViewChanger : MonoBehaviour
         
         _portraitFieldOfView *= multiplier;
         _landscapeFieldOfView *= multiplier;
-        Debug.Log(multiplier);
     }
 
     private void SetRotationView()

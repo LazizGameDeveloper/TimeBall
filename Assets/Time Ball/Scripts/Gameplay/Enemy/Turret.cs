@@ -5,7 +5,7 @@ public class Turret : EnemyBase
 {
     [Header("Unique properties")] 
     [SerializeField] private int _bulletNumber = 1;
-    [SerializeField] private float _timeBtwAttack = 0.5f;
+    [SerializeField] private float _timeBtwAttack = 0.2f;
     [SerializeField] private float _bulletSpeed;
     
     [Space]
@@ -18,13 +18,13 @@ public class Turret : EnemyBase
     [SerializeField] private CollisionEffectPool _deathEffectPool;
 
     private bool _isAttacking;
-    private float PassedTimeBtwAttack;
+    private float _passedTimeBtwAttack;
     private int _bulletsCreatedWhileAttacking;
     private BarController _barController;
 
     public void Start()
     {
-        PassedTimeBtwAttack = _timeBtwAttack;
+        _passedTimeBtwAttack = _timeBtwAttack;
         _barController = GetComponentInChildren<BarController>();
     }
 
@@ -38,29 +38,37 @@ public class Turret : EnemyBase
 
     private bool TryAttack()
     {
-        Debug.Log(_isAttacking);
-        if (_isAttacking)
-            PassedTimeBtwAttack += Time.deltaTime;
-        else 
-            PassedAttackTime += Time.deltaTime;
+        AddTimeToAttack();
 
-        if (PassedAttackTime < AttackRate)
+        if (PassedAttackTime < AttackRate && !_isAttacking)
             return false;
-        
+
         _isAttacking = true;
-        PassedAttackTime -= AttackRate;
-        if (PassedTimeBtwAttack >= _timeBtwAttack)
+        
+        if (_passedTimeBtwAttack >= _timeBtwAttack)
         {
             Attack();
-            _bulletsCreatedWhileAttacking += 1;
-            PassedTimeBtwAttack -= _timeBtwAttack;
+            
+            _bulletsCreatedWhileAttacking++;
+            _passedTimeBtwAttack -= _timeBtwAttack;
+            PassedAttackTime -= AttackRate / _bulletNumber;
+            
             if (_bulletsCreatedWhileAttacking >= _bulletNumber)
             {
+                _passedTimeBtwAttack = _timeBtwAttack;
                 _bulletsCreatedWhileAttacking = 0;
                 _isAttacking = false;
             }
         }
         return true;
+    }
+
+    private void AddTimeToAttack()
+    {
+        if (_isAttacking)
+            _passedTimeBtwAttack += Time.deltaTime;
+        else 
+            PassedAttackTime += Time.deltaTime;
     }
 
     public override void Attack()

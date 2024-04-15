@@ -11,29 +11,11 @@ public class BallContoller : MonoBehaviour, IControllable
     private Rigidbody _rigidbody;
     private Vector3 _direction;
 
-    public void Update()
-    {
-        CorrectSpeed();
-    }
-
-    private void CorrectSpeed()
-    {
-        var velocity = _rigidbody.velocity; 
-        var magnitude = velocity.magnitude;
-        if (magnitude == 0) return;
-        var multiplier = _speed / magnitude;
-        _rigidbody.velocity = new Vector3(
-            velocity.x * multiplier,
-            velocity.y,
-            velocity.z * multiplier
-            );
-    }
-
     public void Initialize()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
-
+    
     public void Move(Vector3 direction)
     {
         Throw(direction);
