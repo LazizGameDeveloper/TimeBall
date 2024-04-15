@@ -13,7 +13,7 @@ public class QuickWallSnapper : EditorWindow
     private static bool[] _hasWallsInDirection = new bool[4];
 
     [MenuItem("Snapping/RoundWallsPosition")]
-    public static void RoundWallsposition()
+    public static void RoundWallsPosition()
     {
         var containers = GameObject.FindGameObjectsWithTag("WallContainer");
         foreach (var container in containers)
