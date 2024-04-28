@@ -1,78 +1,93 @@
-using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Mortar : EnemyBase
 {
-    [SerializeField] private int _bulletNumber = 1;
-    [SerializeField] private float _timeBtwAttack = 0.2f;
+    [SerializeField] private float _focusTime = 0.2f;
+    [SerializeField] private float _radius;
+    [SerializeField] private LayerMask _hitMask;
     
-    [Space]
+    [Header("View")]
     [SerializeField] private Transform _bulletCreateTransform;
+    [SerializeField] private Transform _hitPointView;
 
     [Header("Pool settings")]
     [SerializeField] private CollisionEffectPool _bulletsPool;
-    [SerializeField] private CollisionEffectPool _deathEffectPool;
-
-
-    private Vector3 _shotPoint;
-    private bool _isAttacking;
-    private float _passedTimeBtwAttack;
-    private int _bulletsCreatedWhileAttacking;
+    [FormerlySerializedAs("_exposionEffect")] [SerializeField] private CollisionEffectPool _exposionEffectPool;
+    private const float _hitPointViewRadius = 2.5f;
+    
+    private bool _isFocusing;
+    private float _focusPassedTime;
+    private BarController _bar;
 
     private void Start()
     {
-        _passedTimeBtwAttack = _timeBtwAttack;
+        var scale = _radius / _hitPointViewRadius;
+        _hitPointView.transform.localScale = new Vector3(scale, scale, scale);
+        
+        _bar = _hitPointView.GetComponent<BarController>();
+        _bar.SetImagesActive(false);
     }
 
     private void Update()
     {
-        SetShotPoint();
+        SetReloadBarFillAmount();
 
-        TryAttack();
+        if (TryAttack())
+        {
+            _bar.SetImagesActive(false);    
+            _isFocusing = false;
+            _focusPassedTime = 0;
+            PassedAttackTime = 0;
+        }
+    }
+
+    private void SetReloadBarFillAmount()
+    {
+        _bar.FillAmount = _focusPassedTime / _focusTime;
     }
 
     public override void Attack()
     {
-        base.Attack();
+        var go = new GameObject("ex").AddComponent<Explosion>();
+        var position = _hitPointView.transform.position;
+        go.Explode(position, _hitPointViewRadius, _hitMask);
+        _exposionEffectPool.GetFromPool(position);
     }
 
     private bool TryAttack()
     {
         AddTimeToAttack();
 
-        if (PassedAttackTime < AttackRate && !_isAttacking)
+        if (PassedAttackTime < AttackRate && !_isFocusing)
             return false;
 
-        _isAttacking = true;
+        _isFocusing = true;
         
-        if (_passedTimeBtwAttack >= _timeBtwAttack)
+        if (_focusPassedTime == 0)
         {
-            Attack();
-            
-            _bulletsCreatedWhileAttacking++;
-            _passedTimeBtwAttack -= _timeBtwAttack;
-            PassedAttackTime -= AttackRate / _bulletNumber;
-            
-            if (_bulletsCreatedWhileAttacking >= _bulletNumber)
-            {
-                _passedTimeBtwAttack = _timeBtwAttack;
-                _bulletsCreatedWhileAttacking = 0;
-                _isAttacking = false;
-            }
+            _bar.SetImagesActive(true);
+            SetShotPoint();
         }
-        return true;
+
+        var shouldAttack = _focusPassedTime >= _focusTime;
+        
+        if (shouldAttack)
+            Attack();
+        
+        return shouldAttack;
     }
     
     private void AddTimeToAttack()
     {
-        if (_isAttacking)
-            _passedTimeBtwAttack += Time.deltaTime;
+        if (_isFocusing)
+            _focusPassedTime += Time.deltaTime;
         else 
             PassedAttackTime += Time.deltaTime;
     }
 
     private void SetShotPoint()
     {
-        _shotPoint = RotationTarget.position;
+        _hitPointView.transform.position = RotationTarget.position.AddY(-0.5f);
     }
 }

@@ -86,7 +86,7 @@ public class Turret : EnemyBase
 
     public override void Die()
     {
-        _deathEffectPool.CreateObject(transform.position);
+        _deathEffectPool.GetFromPool(transform.position);
         OnEnemyDieEvent?.Invoke(this);
         gameObject.SetActive(false);
     }

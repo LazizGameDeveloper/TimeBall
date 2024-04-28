@@ -16,7 +16,7 @@ public class CollisionEffectPool : MonoBehaviour
         Pool.autoExpand = _autoExpand;
     }
 
-    public PoolObject CreateObject(Vector3 position)
+    public PoolObject GetFromPool(Vector3 position)
     {
         var poolObject = Pool.GetFreeElement();
         poolObject.transform.position = position;

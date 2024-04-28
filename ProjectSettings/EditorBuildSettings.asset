@@ -6,10 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Time Ball/Scenes/Main_menu.unity
+    path: Assets/Core/Scenes/Main_menu.unity
     guid: d48a6afee2be52044af72d9bddcae174
   - enabled: 1
-    path: Assets/Time Ball/Scenes/Level_1.unity
+    path: Assets/Core/Scenes/Level_1.unity
     guid: 8eeec0c06305f9d48aab57c8d93bc4ad
   - enabled: 0
     path: Assets/Plugins/TypedScenes/Samples/SampleScene.unity

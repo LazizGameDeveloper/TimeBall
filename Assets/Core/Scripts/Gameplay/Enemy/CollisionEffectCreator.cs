@@ -7,6 +7,6 @@ public class CollisionEffectCreator : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag != "Ground")
-            _poolEffect.CreateObject(transform.position);
+            _poolEffect.GetFromPool(transform.position);
     }
 }

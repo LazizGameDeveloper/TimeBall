@@ -34,7 +34,7 @@ public class Bullet : PoolObject
         if(collision.transform.TryGetComponent<BallController>(out var controller))
             controller.Die();
 
-        _collisionEffectPool.CreateObject(transform.position);
+        _collisionEffectPool.GetFromPool(transform.position);
         gameObject.SetActive(false);
     }
 

@@ -14,6 +14,6 @@ public class Coin : MonoBehaviour, ICollectable
 
     private void CreateEffect()
     {
-        _collisionPool.CreateObject(transform.position);
+        _collisionPool.GetFromPool(transform.position);
     }
 }

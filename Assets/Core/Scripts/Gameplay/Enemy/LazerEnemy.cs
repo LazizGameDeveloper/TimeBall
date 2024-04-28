@@ -75,15 +75,15 @@ public class LazerEnemy : EnemyBase
         {
             if (hit.transform.TryGetComponent<BallController>(out var ballController))
             {
+                _hitEffectPool.GetFromPool(hit.transform.position);
                 ballController.Die();
-                _hitEffectPool.CreateObject(hit.transform.position);
             }
         }
     }
 
     public override void Die()
     {
-        _deathEffectPool.CreateObject(transform.position);
+        _deathEffectPool.GetFromPool(transform.position);
         OnEnemyDieEvent?.Invoke(this);
         gameObject.SetActive(false);
     }
@@ -105,9 +105,7 @@ public class LazerEnemy : EnemyBase
         var layerMask = LayerMask.GetMask("Walls");
         if(Physics.Raycast(_rayCreateTransform.position, _rayCreateTransform.up, out var hit, _rayDistance, layerMask))
         {
-            Debug.DrawLine(hit.point, hit.point + Vector3.up, Color.red);
             var destination = new Vector3(0, 0, (hit.point - _rayCreateTransform.position).magnitude);
-            Debug.Log(destination);
             _lazer.SetPosition(1, destination);
         }
     }

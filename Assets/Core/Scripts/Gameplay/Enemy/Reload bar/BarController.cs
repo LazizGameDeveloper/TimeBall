@@ -13,7 +13,7 @@ public class BarController : MonoBehaviour
 
     private Image[] _images;
 
-    public void Awake()
+    private void Awake()
     {
         _images = GetComponentsInChildren<Image>();
     }
@@ -21,6 +21,14 @@ public class BarController : MonoBehaviour
     private void Update()
     {
         SetImagesFillAmount(_fillAmount);
+    }
+
+    public void SetImagesActive(bool isActive)
+    {
+        foreach (var image in _images)
+        {
+            image.enabled = isActive;
+        }
     }
 
     private void SetImagesFillAmount(float fillAmount)
