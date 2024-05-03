@@ -5,13 +5,30 @@ using IJunior.TypedScenes;
 
 public class LevelLoader : MonoBehaviour
 {
+    public static LevelLoader Instance => _instance;
+    private static LevelLoader _instance;
+    
     [SerializeField] private Level[] _levelsToLoad;
     [SerializeField] private Animator _animator;
     [SerializeField] private float _waitingTime;
-
+    
     private UnlockedLevelSaver _unlockedLevelSaver;
 
     private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);    
+        }
+        Initialize();
+    }
+
+    private void Initialize()
     {
         if (_levelsToLoad.Length < 1)
             throw new NullReferenceException($"No levels to load on {name}");

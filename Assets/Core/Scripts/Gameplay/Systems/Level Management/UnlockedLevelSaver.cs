@@ -2,7 +2,7 @@
 
 public class UnlockedLevelSaver
 {
-    public const string UNLOCKED_KEY = "LastLevel";
+    private const string UNLOCKED_KEY = "LastLevel";
 
     public void SaveLevelAsUnlocked(Level level)
     {
