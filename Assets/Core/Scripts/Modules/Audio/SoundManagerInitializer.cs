@@ -1,15 +1,14 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Serialization;
 
 public class SoundManagerInitializer : MonoBehaviour
 {
-    [SerializeField] private SoundDataGroup _musicGroup;
-    [Space] [SerializeField] private SoundDataGroup _fxGroup;
-    [Space] [SerializeField] private SoundDataGroup _uiGroup;
+    [FormerlySerializedAs("_musicGroup")] public SoundDataGroup MusicGroup;
+    [FormerlySerializedAs("_fxGroup")] [Space] public SoundDataGroup FxGroup;
+    [FormerlySerializedAs("_uiGroup")] [Space] public SoundDataGroup UiGroup;
     
     [SerializeField] private bool _destroyComponentAfterInit;
     [SerializeField] private SoundManager _soundManager;
@@ -25,15 +24,15 @@ public class SoundManagerInitializer : MonoBehaviour
     }
 
     public void CreateMusicsSource() => 
-        CreateSounds("Musics", _musicGroup.Data, _soundManager.Musics, _musicGroup.MixerGroup);
+        CreateSounds("Musics", MusicGroup.Data, _soundManager.Musics, MusicGroup.MixerGroup);
     
     public void CreateFXSoundsSource() => 
-        CreateSounds("FXSounds", _fxGroup.Data, _soundManager.FXSounds, _fxGroup.MixerGroup);
+        CreateSounds("FXSounds", FxGroup.Data, _soundManager.FXSounds, FxGroup.MixerGroup);
     
     public void CreateUISoundsSource() => 
-        CreateSounds("UISounds", _uiGroup.Data, _soundManager.UISounds, _uiGroup.MixerGroup);
-
-    private void CreateSounds(string parentName, IEnumerable<SoundData> soundsData, ICollection<Sound> container, AudioMixerGroup mixerGroup)
+        CreateSounds("UISounds", UiGroup.Data, _soundManager.UISounds, UiGroup.MixerGroup);
+    
+    private void CreateSounds(string parentName, IEnumerable<SoundData> soundsData, ICollection<SoundGroup> container, AudioMixerGroup mixerGroup)
     {
         var soundGroupParent = GetOrCreateSoundGroup(parentName);
         
@@ -41,14 +40,15 @@ public class SoundManagerInitializer : MonoBehaviour
         {
             var sound = GetOrCreateSoundInChildrenWithName(soundGroupParent, data.Name);
             sound.Name = data.Name;
-            if (!sound.TryGetComponent<AudioSource>(out _))
+            sound.AudioSources = new List<AudioSource>();
+            
+            AddExistingAudioSources(sound);
+            var extraInstanceNumber = data.InstanceNumber - sound.AudioSources.Count; 
+            for (var i = 0; i < extraInstanceNumber ; i++)
             {
-                var audioSource = sound.gameObject.AddComponent<AudioSource>();
-                audioSource.loop = data.Loop;
-                audioSource.clip = data.AudioClip;
-                audioSource.playOnAwake = data.PlayOnAwake;
-                audioSource.outputAudioMixerGroup = mixerGroup;
-                sound.AudioSource = audioSource;
+                var newInstance = CreateInstance($"Instance {i}", data, mixerGroup);
+                newInstance.transform.parent = sound.transform;
+                sound.AudioSources.Add(newInstance);
             }
             container.Add(sound);
         }
@@ -68,16 +68,36 @@ public class SoundManagerInitializer : MonoBehaviour
         return parent;
     }
 
-    private Sound GetOrCreateSoundInChildrenWithName(Transform parent, string soundName)
+    private SoundGroup GetOrCreateSoundInChildrenWithName(Transform parent, string soundName)
     {
-        var sounds = parent.GetComponentsInChildren<Sound>();
+        var sounds = parent.GetComponentsInChildren<SoundGroup>();
         var sound =  sounds.FirstOrDefault(sound => sound.Name == soundName);
         if (sound == null)
         {
             var go = new GameObject(soundName);
             go.transform.parent = parent;
-            sound = go.AddComponent<Sound>();
+            sound = go.AddComponent<SoundGroup>();
         }
         return sound;
+    }
+
+    private AudioSource CreateInstance(string instanceName, SoundData data, AudioMixerGroup mixerGroup)
+    {
+        var soundInstance = new GameObject(instanceName);
+        var audioSource = soundInstance.AddComponent<AudioSource>();
+        audioSource.loop = data.Loop;
+        audioSource.clip = data.AudioClip;
+        audioSource.playOnAwake = data.PlayOnAwake;
+        audioSource.outputAudioMixerGroup = mixerGroup;
+        return audioSource;
+    }
+
+    private void AddExistingAudioSources(SoundGroup soundGroup)
+    {
+        var children = soundGroup.GetComponentsInChildren<AudioSource>();
+        foreach (var child in children)
+        {
+            soundGroup.AudioSources.Add(child);
+        }
     }
 }

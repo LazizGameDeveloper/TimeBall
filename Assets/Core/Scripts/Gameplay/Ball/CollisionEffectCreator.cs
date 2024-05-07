@@ -6,7 +6,10 @@ public class CollisionEffectCreator : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "Ground")
+        if (!collision.gameObject.CompareTag("Ground"))
+        {
             _poolEffect.GetFromPool(transform.position);
+            SoundManager.Instance.PlayFX(AllSfxSounds.FX_1, collision.transform.position);
+        }
     }
 }

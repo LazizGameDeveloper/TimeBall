@@ -1,0 +1,4 @@
+public static class SFXSounds
+{
+	public static readonly string FX 1 = "FX 1"
+}

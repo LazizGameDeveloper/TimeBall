@@ -30,5 +30,4 @@ namespace PoolSystem.Main
             gameObject.SetActive(false);
         }
     }
-
 }

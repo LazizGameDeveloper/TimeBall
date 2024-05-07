@@ -7,15 +7,17 @@ public class SoundManager: MonoBehaviour
     public static SoundManager Instance => _instance;
     private static SoundManager _instance;
     
-    [HideInInspector] public List<Sound> Musics;
-    [HideInInspector] public List<Sound> FXSounds;
-    [HideInInspector] public List<Sound> UISounds;
+    [HideInInspector] public List<SoundGroup> Musics;
+    [HideInInspector] public List<SoundGroup> FXSounds;
+    [HideInInspector] public List<SoundGroup> UISounds;
+
+    private AudioSource _playingMusicSource;
     
     public void Init()
     {
-        Musics = new List<Sound>();
-        FXSounds = new List<Sound>();
-        UISounds = new List<Sound>();
+        Musics = new List<SoundGroup>();
+        FXSounds = new List<SoundGroup>();
+        UISounds = new List<SoundGroup>();
         if (_instance == null)
         {
             _instance = this;
@@ -31,34 +33,78 @@ public class SoundManager: MonoBehaviour
     public void PlayRandomMusic()
     {
         var random = Random.Range(0, Musics.Count);
-        Musics[random].AudioSource.Play();
+        MarkAndPlayMusicSource(Musics[random].TakeFreeSource());
     }
     
     public void PlayMusic(string musicName)
     {
-        if (TryGetSound(musicName, Musics, out var music))
-            music.AudioSource.Play();
-    }
-
-    public void PlayFX(string fxName)
-    {
-        if (TryGetSound(fxName, FXSounds, out var fx))
+        if (TryGetAudioSource(musicName, Musics, out var music))
         {
-            fx.AudioSource.PlayOneShot(fx.AudioSource.clip);
+            MarkAndPlayMusicSource(music);
+        }
+        else
+        {
+            Debug.LogError($"Music with name {musicName} not found");
         }
     }
 
-    public void PlayUISound(string uiSoundName)
+    public void RestartMusic()
     {
-        if (TryGetSound(uiSoundName, UISounds, out var uiSound))
+        StopMusic();
+        MarkAndPlayMusicSource(_playingMusicSource);
+    }
+
+    public void StopMusic()
+    {
+        if (_playingMusicSource != null && _playingMusicSource.isPlaying)
+            _playingMusicSource.Stop();
+    }
+
+    public void PlayFX(string fxName, Vector3? position = null)
+    {
+        if (TryGetAudioSource(fxName, FXSounds, out var fx, position))
         {
-            uiSound.AudioSource.PlayOneShot(uiSound.AudioSource.clip);
+            fx.PlayOneShot(fx.clip);
+            if (position != null)
+                fx.transform.position = position.Value;
+        }
+        else
+        {
+            Debug.LogError($"Sound FX with name {fxName} not found");
         }
     }
 
-    private bool TryGetSound(string soundName, List<Sound> container, out Sound sound)
+    public void PlayUISound(string uiSoundName, Vector3? position = null)
     {
-        sound = Musics.FirstOrDefault(music => music.Name == soundName);
-        return sound != null;
+        if (TryGetAudioSource(uiSoundName, UISounds, out var uiSound, position))
+        {
+            uiSound.PlayOneShot(uiSound.clip);
+            if (position != null)
+                uiSound.transform.position = position.Value;
+        }
+        else
+        {
+            Debug.LogError($"UI Sound with name {uiSoundName} not found");
+        }
     }
+
+    private bool TryGetAudioSource(string soundName, IEnumerable<SoundGroup> container, out AudioSource sound,
+        Vector3? playPoint = null)
+    {
+        sound = null;
+        var soundGroup = container.FirstOrDefault(sound => sound.Name == soundName);
+        var hasGroup = soundGroup != null;
+        if (hasGroup)
+            sound = soundGroup.TakeFreeSource(playPoint);
+    
+        return hasGroup;
+    }
+    
+    private void MarkAndPlayMusicSource(AudioSource audioSource)
+    {
+        StopMusic();
+        _playingMusicSource = audioSource;
+        _playingMusicSource.Play();
+    }
+    
 }
