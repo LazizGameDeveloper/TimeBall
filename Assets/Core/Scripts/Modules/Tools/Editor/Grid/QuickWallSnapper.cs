@@ -38,7 +38,7 @@ public class QuickWallSnapper : EditorWindow
 
                 for (var i = 0; i < _directions.Length; i++)
                 {
-                    bool a = Physics.Raycast(child.transform.position, _directions[i], out _, 1f);
+                    var a = Physics.Raycast(child.transform.position, _directions[i], out _, 1f);
                     _hasWallsInDirection[i] = a;
                 }
 
@@ -50,6 +50,9 @@ public class QuickWallSnapper : EditorWindow
                     child.transform.rotation = Quaternion.Euler(-90, 0, 180);
                 else if (_hasWallsInDirection[3] && _hasWallsInDirection[0])
                     child.transform.rotation = Quaternion.Euler(-90, 0, 270);
+                else
+                    Debug.Log($"Didn't snapped! {child.name}");
+                    
             }
         }
     }

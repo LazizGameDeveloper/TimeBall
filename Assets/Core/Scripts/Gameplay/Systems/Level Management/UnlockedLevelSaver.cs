@@ -12,6 +12,6 @@ public class UnlockedLevelSaver
     public int GetLastUnlockLevelIndex()
     {
         var levelIndex = PlayerPrefs.GetInt(UNLOCKED_KEY, -1);
-        return ++levelIndex;
+        return levelIndex;
     }
 }

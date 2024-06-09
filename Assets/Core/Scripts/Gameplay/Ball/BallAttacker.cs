@@ -6,7 +6,7 @@ public class BallAttacker : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.transform.TryGetComponent<IEnemy>(out var enemy))
+        if (collision.transform.TryGetComponent<HealthComponent>(out var enemy))
             enemy.ApplyDamage(_damage);
     }
 }

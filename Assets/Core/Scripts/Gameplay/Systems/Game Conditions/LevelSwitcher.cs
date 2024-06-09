@@ -3,7 +3,6 @@
 public class LevelSwitcher : MonoBehaviour
 {
     [SerializeField] private Win _win;
-    [SerializeField] private LevelLoader _levelLoader;
 
     private bool _hasWon = false;
 
@@ -13,7 +12,7 @@ public class LevelSwitcher : MonoBehaviour
             return;
 
         if (Input.GetMouseButtonDown(0))
-            _levelLoader.LoadNextLevel();
+            LevelLoader.Instance.LoadNextLevel();
     }
 
     private void OnEnable()

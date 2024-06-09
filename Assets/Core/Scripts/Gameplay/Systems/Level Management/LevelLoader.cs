@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using IJunior.TypedScenes;
 
@@ -9,22 +8,16 @@ public class LevelLoader : MonoBehaviour
     private static LevelLoader _instance;
     
     [SerializeField] private Level[] _levelsToLoad;
-    [SerializeField] private Animator _animator;
-    [SerializeField] private float _waitingTime;
     
     private UnlockedLevelSaver _unlockedLevelSaver;
 
     private void Awake()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);    
-        }
+        if (_instance != null)
+            Destroy(gameObject);
+        
+        _instance = this;
+        DontDestroyOnLoad(gameObject);
         Initialize();
     }
 
@@ -38,20 +31,13 @@ public class LevelLoader : MonoBehaviour
 
     public void LoadNextLevel()
     {
-        StartCoroutine(LoadLevelRoutine());
-    }
-
-    private IEnumerator LoadLevelRoutine()
-    {
-        _animator.SetTrigger("EndLevel");
-        yield return new WaitForSecondsRealtime(_waitingTime);
-        var lastLevel = GetLastUnlockLevel();
+        var lastLevel = GetNextLevel();
         Level_1.Load(lastLevel);
     }
 
-    private Level GetLastUnlockLevel()
+    private Level GetNextLevel()
     {
         var levelIndex = _unlockedLevelSaver.GetLastUnlockLevelIndex();
-        return _levelsToLoad[levelIndex];
+        return _levelsToLoad[levelIndex+1];
     }
 }

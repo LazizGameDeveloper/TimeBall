@@ -10,7 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7386603275504283017}
   - component: {fileID: 8557492253160978326}
-  - component: {fileID: 4351365199096970746}
+  - component: {fileID: 1480526343764064402}
+  - component: {fileID: 6609488362005016585}
+  - component: {fileID: 3507187739180585320}
+  - component: {fileID: 1506797580291388342}
+  - component: {fileID: 5543859633718625956}
   m_Layer: 6
   m_Name: Lazer
   m_TagString: Untagged
@@ -27,13 +31,12 @@ Transform:
   m_GameObject: {fileID: 2824688992447687202}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 1.5, z: -14}
+  m_LocalPosition: {x: 8, y: 0, z: -14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1638885669735718520}
   - {fileID: 3785362177024877211}
-  - {fileID: 8985340792571498399}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &8557492253160978326
@@ -57,7 +60,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4351365199096970746
+--- !u!114 &1480526343764064402
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,21 +69,70 @@ MonoBehaviour:
   m_GameObject: {fileID: 2824688992447687202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5dfe78ff638e9b047bd363d1d604f138, type: 3}
+  m_Script: {fileID: 11500000, guid: 8758e7d6ff24473489c1f17684489eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 3
-  AttackRate: 2
-  _deathEffect: {fileID: 725748389856807712, guid: 4bda94453d2ca7444a0fff05b2d425f5,
-    type: 3}
-  RotationTarget: {fileID: 0}
-  RotationSpeed: 0
-  _bulletNumber: 1
-  _timeBtwAttack: 0.2
-  _bulletSpeed: 0
-  _bulletCreateTransform: {fileID: 1941054793690776127}
-  _bulletsPool: {fileID: 0}
-  _deathEffectPool: {fileID: 0}
+  AttackRate: 2.5
+  _attackFocusTime: 0.5
+  _rayCreateTransform: {fileID: 1941054793690776127}
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 768
+  _rayDistance: 99
+  _laser: {fileID: 5043642399004850657}
+  _hitEffectPoolExample: {fileID: 0}
+--- !u!114 &6609488362005016585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2824688992447687202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac00abb0a035464bb12599295ce74ad6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _effectPool: {fileID: 0}
+--- !u!114 &3507187739180585320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2824688992447687202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69f34e96bb7648a5895edc068cc0aaab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 0}
+  _rotationSpeed: 12
+--- !u!114 &1506797580291388342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2824688992447687202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a4f9838d12949248039fb4c4a9b2e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 3
+--- !u!114 &5543859633718625956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2824688992447687202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48688327bf9d14e4aa0bcbcb24a96252, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4118224517343325430
 GameObject:
   m_ObjectHideFlags: 0
@@ -207,7 +259,7 @@ GameObject:
   - component: {fileID: 8985340792571498399}
   - component: {fileID: 5043642399004850657}
   m_Layer: 6
-  m_Name: GameObject
+  m_Name: LazerRenderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -221,12 +273,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7402682449132351183}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -13.973358}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 3.333333, y: 3.3333323, z: 6.6666646}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7386603275504283017}
+  m_Father: {fileID: 5560582768748660192}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &5043642399004850657
 LineRenderer:
@@ -249,7 +301,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -271,11 +323,11 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: -4.74, y: 0, z: -14.4}
-  - {x: 10, y: 10, z: 10}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.1
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -293,8 +345,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 1, g: 0.33129472, b: 0.18679237, a: 1}
+      key1: {r: 1, g: 0.088679194, b: 0.088679194, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -318,7 +370,7 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -329,7 +381,7 @@ LineRenderer:
     shadowBias: 0.5
     generateLightingData: 0
   m_MaskInteraction: 0
-  m_UseWorldSpace: 1
+  m_UseWorldSpace: 0
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
 --- !u!1 &7951438978579335176
@@ -364,6 +416,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1941054793690776127}
+  - {fileID: 8985340792571498399}
   m_Father: {fileID: 3785362177024877211}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!33 &3731096833036916648

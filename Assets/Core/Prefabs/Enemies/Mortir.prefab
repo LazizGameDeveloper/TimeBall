@@ -1,5 +1,54 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1629119383073207316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3605428078504022569}
+  - component: {fileID: 7096279167802469505}
+  m_Layer: 0
+  m_Name: Mortir Hit Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3605428078504022569
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629119383073207316}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7471520449111379991}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7096279167802469505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629119383073207316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c1d37bff84070429b54daa0aa965ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _poolCount: 1
+  _autoExpand: 1
+  _poolObject: {fileID: -2843634200849869186, guid: 09120ad0e2883fb4087443568a63bcb6,
+    type: 3}
+  _container: {fileID: 3605428078504022569}
 --- !u!1 &2535236315543907925
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,10 +160,12 @@ Transform:
   m_GameObject: {fileID: 3676245031547243940}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.9915695, y: 1.6000005, z: -13.010467}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3605428078504022569}
+  - {fileID: 6967735931860461491}
   - {fileID: 4387442526735283067}
   - {fileID: 7131365792332159363}
   m_Father: {fileID: 0}
@@ -152,20 +203,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9722ce846504d9b4096700e9d919a0c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 99
   AttackRate: 5
-  _deathEffect: {fileID: 0}
-  RotationTarget: {fileID: 0}
-  RotationSpeed: 1
+  _target: {fileID: 0}
   _focusTime: 2
   _radius: 2.5
   _hitMask:
     serializedVersion: 2
     m_Bits: 256
-  _bulletCreateTransform: {fileID: 0}
+  _bulletCreateTransform: {fileID: 1511161036455771937}
   _hitPointView: {fileID: 4387442526735283067}
-  _bulletsPool: {fileID: 0}
-  _exposionEffectPool: {fileID: 0}
+  _bulletsPoolExample: {fileID: 3677055394759866469}
+  _explosionEffectPoolExample: {fileID: 7096279167802469505}
 --- !u!1 &6482440628663290645
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,6 +245,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2857532464389658917}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8440502327803886823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6967735931860461491}
+  - component: {fileID: 3677055394759866469}
+  m_Layer: 0
+  m_Name: Mortir Missles Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6967735931860461491
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8440502327803886823}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7471520449111379991}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3677055394759866469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8440502327803886823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5c1d37bff84070429b54daa0aa965ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _poolCount: 1
+  _autoExpand: 1
+  _poolObject: {fileID: -2843634200849869186, guid: 09120ad0e2883fb4087443568a63bcb6,
+    type: 3}
+  _container: {fileID: 6967735931860461491}
 --- !u!1 &8558295612695143551
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,7 +499,7 @@ PrefabInstance:
     - target: {fileID: 6332599858459971400, guid: ddb6f7d1bd2abc64ca4d3ede7dc3ffc7,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -0.45
       objectReference: {fileID: 0}
     - target: {fileID: 6332599858459971400, guid: ddb6f7d1bd2abc64ca4d3ede7dc3ffc7,
         type: 3}
