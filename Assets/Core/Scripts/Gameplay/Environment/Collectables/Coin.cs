@@ -1,20 +1,27 @@
+using PoolSystem.Main;
+using PoolSystem.Service;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Coin : MonoBehaviour, ICollectable
 {
-    [SerializeField] private ParticleSystem _collectionEffect;
-    [SerializeField] private int amount = 1;
-    [FormerlySerializedAs("_collisionPool")] [SerializeField] private PoolExample _collisionPoolExample;
+    [SerializeField] private int _amount = 1;
+    [SerializeField] private PoolData<PoolObject> _collectVFXData;
+
+    private PoolMono<PoolObject> _collectVFXPool;
+
+    private void Start()
+    {
+        _collectVFXPool = Utils.GetPoolFromServiceLocator(_collectVFXData);
+    }
 
     public void Collect()
     {
-        Bank.AddCoins(this, amount);
+        Bank.AddCoins(this, _amount);
         CreateEffect();
     }
 
     private void CreateEffect()
     {
-        _collisionPoolExample.GetFromPool(transform.position);
+        _collectVFXPool.GetFromPool(transform.position);
     }
 }

@@ -3,6 +3,11 @@ using UnityEngine;
 
 public class RotateToTarget : MonoBehaviour
 {
+    public Transform Target
+    {
+        get => _target;
+        set => _target = value;
+    }
     [SerializeField] private Transform _target;
     [SerializeField] private float _rotationSpeed;
 

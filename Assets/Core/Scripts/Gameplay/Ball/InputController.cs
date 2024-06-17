@@ -3,14 +3,13 @@
 [RequireComponent(typeof(IControllable))]
 public class InputController: MonoBehaviour
 {
-    public TimeManager TimeManager => _timeManager;
-
     [SerializeField] private Joystick _joystick;
+    public TimeManager TimeManager { get; private set; }
 
-    private TragectoryLineRenderer _tragectoryLine;
+    private TragectoryLineRenderer _trajectoryLine;
     private IControllable _controllable;
-    private TimeManager _timeManager;
     private Vector3 _direction;
+    private Camera _mainCamera;
 
     private void OnEnable()
     {
@@ -24,32 +23,36 @@ public class InputController: MonoBehaviour
         _joystick.OnPoinerDownEvent -= OnJoystickPointerDown;
         _joystick.OnPoinerDragEvent -= OnJoystickPointerDrag;
         _joystick.OnPoinerUpEvent -= OnJoystickPointerUp;
-        _timeManager.UndoSlowmotion();
+        TimeManager.UndoSlowmotion();
     }
 
     public void Initialize(TimeManager timeManager)
     {
-        _timeManager = timeManager;
+        TimeManager = timeManager;
         _controllable = GetComponent<IControllable>();
-        _tragectoryLine = GetComponent<TragectoryLineRenderer>();
+        _trajectoryLine = GetComponent<TragectoryLineRenderer>();
+        _mainCamera = Camera.main;
     }
 
     private void OnJoystickPointerDown()
     {
-        _timeManager.DoSlowmotion();
-        _tragectoryLine.Activate();
+        TimeManager.DoSlowmotion();
+        _trajectoryLine.Activate();
     }
 
     private void OnJoystickPointerDrag()
     {
-        _direction = new Vector3(-_joystick.Vertical, 0, _joystick.Horizontal);
-        _tragectoryLine.SetDirection(_direction.normalized);
+        var joystickDirection = new Vector3(_joystick.Horizontal, 0, _joystick.Vertical);
+        var worldDirection = _mainCamera.transform.TransformDirection(joystickDirection);
+        _direction = worldDirection.AddY(-worldDirection.y).normalized;
+        _trajectoryLine.SetDirection(_direction);
     }
+
 
     private void OnJoystickPointerUp()
     {
         _controllable.Move(_direction);
-        _timeManager.UndoSlowmotion();
-        _tragectoryLine.Deactivate();
+        TimeManager.UndoSlowmotion();
+        _trajectoryLine.Deactivate();
     }
 }

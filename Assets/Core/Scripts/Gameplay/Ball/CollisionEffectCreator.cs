@@ -1,15 +1,22 @@
+using GigaCreation.Tools.Service;
+using PoolSystem.Main;
+using PoolSystem.Service;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class CollisionEffectCreator : MonoBehaviour
 {
-    [FormerlySerializedAs("_poolEffect")] [SerializeField] private PoolExample _poolExampleEffect;
+    [SerializeField] private PoolData<PoolObject> _poolData;
+    private PoolMono<PoolObject> _pool;
+    private void Start()
+    {
+        _pool = Utils.GetPoolFromServiceLocator(_poolData);
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Ground"))
         {
-            _poolExampleEffect.GetFromPool(transform.position);
+            _pool.GetFromPool(transform.position);
         }
     }
 }

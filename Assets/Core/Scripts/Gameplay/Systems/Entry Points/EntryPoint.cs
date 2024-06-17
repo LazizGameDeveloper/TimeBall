@@ -1,3 +1,6 @@
+using GigaCreation.Tools.Service;
+using PoolSystem.Main;
+using PoolSystem.Service;
 using UnityEngine;
 
 public class EntryPoint : MonoBehaviour
@@ -14,6 +17,8 @@ public class EntryPoint : MonoBehaviour
 
     private void Awake()
     {
+        RegisterServices();
+        
         _fpsLimiter.Initialize();
         _ballConroller.Initialize();
         _enemyNumberManager.Initialize();
@@ -22,5 +27,10 @@ public class EntryPoint : MonoBehaviour
         _winUI.Initialize(_win);
         _restarter.Initialize(_ballConroller, _enemyNumberManager);
         _slowMotionEffect.Initialize(_inputController.TimeManager);
+    }
+
+    private void RegisterServices()
+    {
+        ServiceLocator.Register(new PoolService<PoolObject>());
     }
 }

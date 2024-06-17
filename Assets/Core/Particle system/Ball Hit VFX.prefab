@@ -9571,7 +9571,7 @@ GameObject:
   - component: {fileID: 4021103657954561941}
   - component: {fileID: 8706183220971999705}
   m_Layer: 0
-  m_Name: CFXR Hit A (Red)
+  m_Name: Ball Hit VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

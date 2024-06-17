@@ -77,7 +77,12 @@ MonoBehaviour:
   _timeBtwAttack: 0.2
   _bulletSpeed: 12
   _bulletCreateTransform: {fileID: 574044681117946118}
-  _bulletsPoolExample: {fileID: 0}
+  _bulletsPoolData:
+    PoolObject: {fileID: 4544869761404024505, guid: df6c7feaa1c138549a5f3c9dc5fc8ca5,
+      type: 3}
+    Count: 10
+    AutoExpand: 1
+    Container: {fileID: 0}
 --- !u!114 &2188235964660910860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117,7 +122,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac00abb0a035464bb12599295ce74ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPool: {fileID: 0}
+  _poolData:
+    PoolObject: {fileID: 7809474478751401428, guid: 4bda94453d2ca7444a0fff05b2d425f5,
+      type: 3}
+    Count: 3
+    AutoExpand: 1
+    Container: {fileID: 0}
 --- !u!114 &5081815192112151245
 MonoBehaviour:
   m_ObjectHideFlags: 0

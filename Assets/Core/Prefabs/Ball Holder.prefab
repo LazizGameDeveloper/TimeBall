@@ -491,7 +491,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e38c146008db5194cbf6ee086850e6eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _poolEffect: {fileID: 8162901517581231833}
+  _poolData:
+    PoolObject: {fileID: 8706183220971999705, guid: 5c755f9bc5253ea418e919994537dcc7,
+      type: 3}
+    Count: 4
+    AutoExpand: 1
+    Container: {fileID: 0}
 --- !u!1 &8111891554485224896
 GameObject:
   m_ObjectHideFlags: 0

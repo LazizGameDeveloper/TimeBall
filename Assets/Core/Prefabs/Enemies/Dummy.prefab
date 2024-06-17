@@ -177,4 +177,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac00abb0a035464bb12599295ce74ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPool: {fileID: 0}
+  _poolData:
+    PoolObject: {fileID: 7809474478751401428, guid: 4bda94453d2ca7444a0fff05b2d425f5,
+      type: 3}
+    Count: 4
+    AutoExpand: 1
+    Container: {fileID: 0}

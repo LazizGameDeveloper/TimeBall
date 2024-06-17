@@ -1,6 +1,9 @@
 using System;
+using PoolSystem.Main;
+using PoolSystem.Service;
 using UnityEngine;
 using PrimeTween;
+using UnityEngine.Serialization;
 
 public class LaserAttack : AttackBase
 {
@@ -9,7 +12,7 @@ public class LaserAttack : AttackBase
     [SerializeField] private LayerMask _layerMask;
     [SerializeField] private float _rayDistance;
     [SerializeField] private LineRenderer _laser;
-    [SerializeField] private PoolExample _hitEffectPoolExample;
+    [SerializeField] private PoolData<PoolObject> _hitVFXPoolData;
 
     private bool _isFocusing;
     private float _focusTimeTimer;
@@ -20,10 +23,12 @@ public class LaserAttack : AttackBase
     private float _rayWidthMax;
     private float _rayWidthMin;
 
-    private RotateToTarget _rotateToTarget; 
+    private RotateToTarget _rotateToTarget;
+    private PoolMono<PoolObject> _hitVFXPool;
     
     private void Start()
     {
+        _hitVFXPool = Utils.GetPoolFromServiceLocator(_hitVFXPoolData);
         _rayAlphaCurrent = _rayAlphaMin;
         _rayWidthMin = _laser.startWidth;
         _rayWidthMax = _rayAlphaMin * 1f;
@@ -54,7 +59,7 @@ public class LaserAttack : AttackBase
         {
             if (hit.transform.TryGetComponent<BallController>(out var ballController))
             {
-                _hitEffectPoolExample.GetFromPool(hit.transform.position);
+                _hitVFXPool.GetFromPool(hit.transform.position);
                 ballController.Die();
             }
         }

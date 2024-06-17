@@ -7,7 +7,7 @@ public class Collector : MonoBehaviour
         if (other.TryGetComponent<ICollectable>(out var collectable))
         {
             collectable.Collect();
-            Destroy(other.gameObject);
+            other.gameObject.SetActive(false);
         }
     }
 }

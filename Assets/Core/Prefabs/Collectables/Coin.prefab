@@ -135,10 +135,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab1a6639f82117148832678cd7bf9ba8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _collectionEffect: {fileID: 557068545009538747, guid: 5cda076c412c35c44bde817268b5ceef,
-    type: 3}
-  amount: 1
-  _collisionPoolExample: {fileID: 0}
+  _amount: 1
+  _collectVFXData:
+    PoolObject: {fileID: -6658271386808981243, guid: 5cda076c412c35c44bde817268b5ceef,
+      type: 3}
+    Count: 20
+    AutoExpand: 1
+    Container: {fileID: 0}
 --- !u!96 &3436952414527789605
 TrailRenderer:
   serializedVersion: 3

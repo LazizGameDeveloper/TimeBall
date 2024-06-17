@@ -2,23 +2,21 @@
 
 namespace PoolSystem.Main
 {
-    public class PoolTester : MonoBehaviour
+    public class Pool : MonoBehaviour
     {
         [SerializeField] private int _poolCount = 5;
         [SerializeField] private bool _autoExpand;
         [SerializeField] private PoolObject _poolObject;
 
         private PoolMono<PoolObject> _pool;
-
-
+        
         private void Start()
         {
             _pool = new PoolMono<PoolObject>(_poolObject, _poolCount, transform);
-
-            _pool.autoExpand = _autoExpand;
+            _pool.AutoExpand = _autoExpand;
         }
 
-        private void CreateEffect(Vector3 position)
+        public void GetFromPool(Vector3 position)
         {
             var effect = _pool.GetFreeElement();
             effect.transform.position = position;

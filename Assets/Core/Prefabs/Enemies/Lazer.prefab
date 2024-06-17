@@ -80,7 +80,12 @@ MonoBehaviour:
     m_Bits: 768
   _rayDistance: 99
   _laser: {fileID: 5043642399004850657}
-  _hitEffectPoolExample: {fileID: 0}
+  _hitVFXPoolData:
+    PoolObject: {fileID: -7927185402924325390, guid: 0c1b694052aa18e4f8fe16470a20bf05,
+      type: 3}
+    Count: 10
+    AutoExpand: 1
+    Container: {fileID: 0}
 --- !u!114 &6609488362005016585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac00abb0a035464bb12599295ce74ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _effectPool: {fileID: 0}
+  _poolData:
+    PoolObject: {fileID: 7809474478751401428, guid: 4bda94453d2ca7444a0fff05b2d425f5,
+      type: 3}
+    Count: 3
+    AutoExpand: 1
+    Container: {fileID: 0}
 --- !u!114 &3507187739180585320
 MonoBehaviour:
   m_ObjectHideFlags: 0

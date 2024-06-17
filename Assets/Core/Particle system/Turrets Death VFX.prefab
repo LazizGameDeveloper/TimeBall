@@ -5008,7 +5008,7 @@ GameObject:
   - component: {fileID: 725748389856807726}
   - component: {fileID: 7809474478751401428}
   m_Layer: 0
-  m_Name: CFXR Explosion Smoke 2 Solo (HDR)
+  m_Name: Turrets Death VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

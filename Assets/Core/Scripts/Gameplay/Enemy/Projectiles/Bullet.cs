@@ -1,50 +1,38 @@
 ﻿using UnityEngine;
 using PoolSystem.Main;
 using System.Collections;
+using PoolSystem.Service;
 
 public class Bullet : PoolObject
 {
-    [SerializeField] private float _speed;
-
-    private PoolExample _poolExample;
-    private Rigidbody _rigidbody;
+    [SerializeField] private PoolData<PoolObject> _hitVFXData;
+    
+    private PoolMono<PoolObject> _hitVFXPool;
     private TrailRenderer _trailRenderer;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
         _trailRenderer = GetComponentInChildren<TrailRenderer>();
-        _poolExample = transform.parent.GetComponentsInChildren<PoolExample>()[1];
+        _hitVFXPool = Utils.GetPoolFromServiceLocator(_hitVFXData);
     }
 
     private void OnEnable()
     {
-        SetVelocity();
         StartCoroutine(EnableTrailRenderer());
     }
 
     private void OnDisable()
     {
-        _rigidbody.velocity = Vector3.zero;
         _trailRenderer.emitting = false;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.transform.TryGetComponent<BallController>(out var controller))
+        if(other.transform.TryGetComponent<BallController>(out var controller))
             controller.Die();
 
-        _poolExample.GetFromPool(transform.position);
+        _hitVFXPool.GetFromPool(transform.position);
         gameObject.SetActive(false);
-    }
-
-    private void SetVelocity()
-    {
-        var cos = Mathf.Cos(transform.rotation.eulerAngles.y * Mathf.Deg2Rad);
-        var sin = Mathf.Sin(transform.rotation.eulerAngles.y * Mathf.Deg2Rad);
-        var direction = new Vector3(sin, 0, cos);
-
-        _rigidbody.velocity = direction * _speed;
     }
 
     private IEnumerator EnableTrailRenderer()

@@ -1,7 +1,7 @@
 using PoolSystem.Main;
 using UnityEngine;
 
-public class PoolExample : MonoBehaviour
+public class PoolContainer : MonoBehaviour
 {
     public PoolMono<PoolObject> Pool { get; private set; }
 
@@ -13,7 +13,7 @@ public class PoolExample : MonoBehaviour
     private void Start()
     {
         Pool = new PoolMono<PoolObject>(_poolObject, _poolCount, _container);
-        Pool.autoExpand = _autoExpand;
+        Pool.AutoExpand = _autoExpand;
     }
 
     public PoolObject GetFromPool(Vector3 position)

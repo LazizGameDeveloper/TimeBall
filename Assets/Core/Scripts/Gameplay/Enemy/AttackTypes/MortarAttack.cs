@@ -1,4 +1,7 @@
+using PoolSystem.Main;
+using PoolSystem.Service;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class MortarAttack : AttackBase
 {
@@ -8,16 +11,22 @@ public class MortarAttack : AttackBase
     [SerializeField] private LayerMask _hitMask;
     [SerializeField] private Transform _bulletCreateTransform;
     [SerializeField] private Transform _hitPointView;
+    [SerializeField] private PoolData<PoolObject> _bulletsPoolData;
+    [SerializeField] private PoolData<PoolObject> _explosionVFXPoolData;
     
-    [SerializeField] private PoolExample _bulletsPoolExample;
-    [SerializeField] private PoolExample _explosionEffectPoolExample;
     private const float HitPointViewRadius = 2.5f;
+    
+    private PoolMono<PoolObject> _bulletsPool;
+    private PoolMono<PoolObject> _explosionVFXPool;
 
     private bool _isFocusing;
     private float _focusPassedTime;
 
     private void Start()
     {
+        _bulletsPool = Utils.GetPoolFromServiceLocator(_bulletsPoolData);
+        _explosionVFXPool = Utils.GetPoolFromServiceLocator(_explosionVFXPoolData);
+        
         var scale = _radius / HitPointViewRadius;
         _hitPointView.transform.localScale = new Vector3(scale, scale, scale);
         ReloadBar.SetImagesActive(false);
@@ -42,7 +51,7 @@ public class MortarAttack : AttackBase
         var go = new GameObject("ex").AddComponent<Explosion>();
         var position = _hitPointView.transform.position;
         go.Explode(position, HitPointViewRadius, _hitMask);
-        _explosionEffectPoolExample.GetFromPool(position);
+        _explosionVFXPool.GetFromPool(position);
     }
 
     private bool TryAttack()

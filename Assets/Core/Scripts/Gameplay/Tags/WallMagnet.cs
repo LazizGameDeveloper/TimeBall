@@ -22,12 +22,12 @@ public class WallMagnet : MonoBehaviour
             var e = Event.current;
             if (e.type == EventType.KeyDown)
             {
-                if (e.keyCode == KeyCode.A)
+                if (e.keyCode == KeyCode.LeftArrow)
                 {
                     transform.Rotate(Vector3.up, -90, Space.World);
                     e.Use();
                 }
-                else if (e.keyCode == KeyCode.D)
+                else if (e.keyCode == KeyCode.RightArrow)
                 {
                     transform.Rotate(Vector3.up, 90, Space.World);
                     e.Use(); 

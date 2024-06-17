@@ -1,22 +1,26 @@
+using PoolSystem.Main;
+using PoolSystem.Service;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [SelectionBase]
 public class TurretAttack : AttackBase
 {
     [SerializeField] private int _bulletNumber = 1;
     [SerializeField] private float _timeBtwAttack = 0.2f;
-    [SerializeField] private float _bulletSpeed;
+    [SerializeField] private float _bulletSpeed = 8;
     [SerializeField] private Transform _bulletCreateTransform;
-    [SerializeField] private PoolExample _bulletsPoolExample;
+    [SerializeField] private PoolData<PoolObject> _bulletsPoolData;
+    
+    private PoolMono<PoolObject> _bulletsPool;
+    private BarController _barController;
     
     private bool _isAttacking;
     private float _passedTimeBtwAttack;
     private int _bulletsCreatedWhileAttacking;
-    private BarController _barController;
 
     private void Start()
     {
+        _bulletsPool = Utils.GetPoolFromServiceLocator(_bulletsPoolData);
         _passedTimeBtwAttack = _timeBtwAttack;
     }
 
@@ -61,7 +65,9 @@ public class TurretAttack : AttackBase
 
     private void CreateBullet(Vector3 position, Quaternion rotation)
     {
-        var createdBullet = _bulletsPoolExample.Pool.GetFreeElement(false);
+        var createdBullet = _bulletsPool.GetFreeElement(false);
+        var mover = createdBullet.GetComponent<ForwardMover>();
+        mover.Speed = _bulletSpeed;
         createdBullet.transform.position = position;
         createdBullet.transform.rotation = rotation;
         createdBullet.gameObject.SetActive(true);
