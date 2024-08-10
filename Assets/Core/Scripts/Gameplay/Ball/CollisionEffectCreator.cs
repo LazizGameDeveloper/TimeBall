@@ -7,9 +7,11 @@ public class CollisionEffectCreator : MonoBehaviour
 {
     [SerializeField] private PoolData<PoolObject> _poolData;
     private PoolMono<PoolObject> _pool;
+    
     private void Start()
     {
         _pool = Utils.GetPoolFromServiceLocator(_poolData);
+        Debug.Log("Creating pool for ball");
     }
 
     private void OnCollisionEnter(Collision collision)

@@ -1,3 +1,4 @@
+using System;
 using GigaCreation.Tools.Service;
 using PoolSystem.Main;
 using PoolSystem.Service;
@@ -15,6 +16,8 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private SlowmotionEffect _slowMotionEffect;
     [SerializeField] private TimeManager _timeManager;
 
+    private PoolService<PoolObject> _poolService;
+    
     private void Awake()
     {
         RegisterServices();
@@ -31,6 +34,12 @@ public class EntryPoint : MonoBehaviour
 
     private void RegisterServices()
     {
-        ServiceLocator.Register(new PoolService<PoolObject>());
+        _poolService = new PoolService<PoolObject>();
+        ServiceLocator.Register(_poolService);
+    }
+
+    private void OnDestroy()
+    {
+        ServiceLocator.Unregister(_poolService);
     }
 }
